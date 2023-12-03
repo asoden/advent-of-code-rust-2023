@@ -16,5 +16,6 @@ test_lib = []
 [dependencies]
 fancy-regex = "0.12.0"
 fxhash = "0.2.1"
+nom = "7.1.3"
 pico-args = "0.5.0"
 regex = "1.10.2"
