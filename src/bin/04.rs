@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+use rayon::prelude::*;
 
 struct Card {
     matches: Vec<u32>,
@@ -34,7 +35,7 @@ pub fn part_one(input: &str) -> Option<u32> {
     Some(
         input
             .trim()
-            .lines()
+            .par_lines()
             .map(Card::new)
             .map(|card| {
                 return if card.matches.len() < 1 {
@@ -48,7 +49,7 @@ pub fn part_one(input: &str) -> Option<u32> {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let cards: Vec<Card> = input.trim().lines().map(Card::new).collect();
+    let cards: Vec<Card> = input.trim().par_lines().map(Card::new).collect();
     let mut counts: Vec<u32> = vec![1; cards.len()];
 
     for (i, card) in cards.iter().enumerate() {
