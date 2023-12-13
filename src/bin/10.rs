@@ -1,6 +1,6 @@
-use std::collections::{HashMap, HashSet};
-use std::collections::hash_map::Entry;
 use itertools::Itertools;
+use std::collections::hash_map::Entry;
+use std::collections::{HashMap, HashSet};
 
 struct Grid {
     width: i32,
@@ -14,7 +14,11 @@ impl Grid {
         let width: i32 = rows[0].len() as i32;
         let height: i32 = rows.len() as i32;
 
-        Self { height, width, bytes: rows }
+        Self {
+            height,
+            width,
+            bytes: rows,
+        }
     }
 
     fn find_start(&self) -> (i32, i32) {
@@ -32,7 +36,7 @@ impl Grid {
         self.bytes[y as usize][x as usize]
     }
 
-    fn get_adjacent(&self, x: i32, y: i32) -> impl Iterator<Item=(u8, i32, i32)> + '_ {
+    fn get_adjacent(&self, x: i32, y: i32) -> impl Iterator<Item = (u8, i32, i32)> + '_ {
         let width = self.width;
         let height = self.height;
         [(1, 0), (-1, 0), (0, 1), (0, -1)]
@@ -63,18 +67,18 @@ pub fn part_one(input: &str) -> Option<i32> {
         let current_symbol = grid.get(x, y);
         for (adjacent, delta_x, delta_y) in grid.get_adjacent(x, y) {
             match (adjacent, current_symbol, delta_x, delta_y) {
-                (b'|', b'7' | b'F' | b'|' | b'S', 0, 1) |
-                (b'|', b'L' | b'J' | b'|' | b'S', 0, -1) |
-                (b'-', b'F' | b'L' | b'-' | b'S', 1, 0) |
-                (b'-', b'7' | b'J' | b'-' | b'S', -1, 0) |
-                (b'L', b'7' | b'J' | b'-' | b'S', -1, 0) |
-                (b'L', b'F' | b'7' | b'|' | b'S', 0, 1) |
-                (b'J', b'L' | b'F' | b'-' | b'S', 1, 0) |
-                (b'J', b'7' | b'F' | b'|' | b'S', 0, 1) |
-                (b'7', b'L' | b'F' | b'-' | b'S', 1, 0) |
-                (b'7', b'L' | b'J' | b'|' | b'S', 0, -1) |
-                (b'F', b'J' | b'7' | b'-' | b'S', -1, 0) |
-                (b'F', b'L' | b'J' | b'|' | b'S', 0, -1) => {
+                (b'|', b'7' | b'F' | b'|' | b'S', 0, 1)
+                | (b'|', b'L' | b'J' | b'|' | b'S', 0, -1)
+                | (b'-', b'F' | b'L' | b'-' | b'S', 1, 0)
+                | (b'-', b'7' | b'J' | b'-' | b'S', -1, 0)
+                | (b'L', b'7' | b'J' | b'-' | b'S', -1, 0)
+                | (b'L', b'F' | b'7' | b'|' | b'S', 0, 1)
+                | (b'J', b'L' | b'F' | b'-' | b'S', 1, 0)
+                | (b'J', b'7' | b'F' | b'|' | b'S', 0, 1)
+                | (b'7', b'L' | b'F' | b'-' | b'S', 1, 0)
+                | (b'7', b'L' | b'J' | b'|' | b'S', 0, -1)
+                | (b'F', b'J' | b'7' | b'-' | b'S', -1, 0)
+                | (b'F', b'L' | b'J' | b'|' | b'S', 0, -1) => {
                     let new_x = x + delta_x;
                     let new_y = y + delta_y;
                     let step = distance + 1;
@@ -91,7 +95,7 @@ pub fn part_one(input: &str) -> Option<i32> {
                         }
                     }
                 }
-                _ => ()
+                _ => (),
             }
         }
     }
@@ -150,9 +154,7 @@ pub fn part_two(input: &str) -> Option<i32> {
         reg_poly_area += (x_1 - x_2) * (y_2 + y_1);
     }
 
-
-
-    Some(reg_poly_area.abs() / 2  - (num_points / 2 - 1))
+    Some(reg_poly_area.abs() / 2 - (num_points / 2 - 1))
 }
 
 advent_of_code::main!(10);

@@ -11,7 +11,6 @@ fn taxicab_distance(point0: Point, point1: Point) -> usize {
 }
 
 fn galaxy_distance_sums(input: &str, expansion_factor: usize) -> usize {
-
     let mut y_set = HashSet::new();
     let mut x_set = HashSet::new();
     let mut galaxies = Vec::new();

@@ -1,5 +1,5 @@
-use std::collections::HashSet;
 use rayon::prelude::*;
+use std::collections::HashSet;
 
 struct Card {
     matches: Vec<u32>,
