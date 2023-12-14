@@ -5,16 +5,50 @@ struct Reflection {
     horizontal: Option<u32>,
 }
 
-fn get_column(grid: &Vec<Vec<char>>, column: usize) -> String {
+fn _get_column(grid: &Vec<Vec<char>>, column: usize) -> String {
     grid.iter().map(|row| row[column]).collect()
 }
 
-fn get_row(grid: &Vec<Vec<char>>, row: usize) -> String {
+fn get_num_column(grid: &Vec<Vec<char>>, column: usize) -> u32 {
+    let mut val = 0;
+    grid.iter().for_each(|row| {
+        if row[column] == '#' {
+            val = val << 1 | 1;
+        } else {
+            val = val << 1;
+        }
+    });
+
+    val
+}
+
+fn _get_row(grid: &Vec<Vec<char>>, row: usize) -> String {
     grid[row].iter().collect()
 }
 
-fn diff_strings(str0: &str, str1: &str) -> u32 {
-    str0.chars().zip(str1.chars()).filter(|&(c0, c1)| c0 != c1).count() as u32
+fn get_num_row(grid: &Vec<Vec<char>>, row: usize) -> u32 {
+    let mut val = 0;
+    grid[row].iter().for_each(|row| {
+        if *row == '#' {
+            val = val << 1 | 1;
+        } else {
+            val = val << 1;
+        }
+    });
+
+    val
+}
+
+fn _diff_strings(str0: &str, str1: &str) -> u32 {
+    str0.chars()
+        .zip(str1.chars())
+        .filter(|&(c0, c1)| c0 != c1)
+        .count() as u32
+}
+
+#[inline]
+fn diff_bits(x: u32, y: u32) -> u32 {
+    (x ^ y).count_ones()
 }
 
 fn find_reflections(grid: &Vec<Vec<char>>) -> Reflection {
@@ -24,7 +58,7 @@ fn find_reflections(grid: &Vec<Vec<char>>) -> Reflection {
         let mut right = column;
         let mut is_valid = true;
         while left >= 0 && right < row_length {
-            if get_column(grid, left as usize) != get_column(grid, right) {
+            if get_num_column(grid, left as usize) != get_num_column(grid, right) {
                 is_valid = false;
                 break;
             }
@@ -44,7 +78,7 @@ fn find_reflections(grid: &Vec<Vec<char>>) -> Reflection {
         let mut down = row;
         let mut is_valid = true;
         while up >= 0 && down < grid.len() {
-            if get_row(grid, up as usize) != get_row(grid, down) {
+            if get_num_row(grid, up as usize) != get_num_row(grid, down) {
                 is_valid = false;
                 break;
             }
@@ -75,7 +109,10 @@ fn find_smudge_reflections(grid: &Vec<Vec<char>>) -> Reflection {
             if diffs > 1 {
                 break;
             }
-            diffs += diff_strings(&get_column(grid, left as usize), &get_column(grid, right));
+            diffs += diff_bits(
+                get_num_column(grid, left as usize),
+                get_num_column(grid, right),
+            );
             left -= 1;
             right += 1;
         }
@@ -95,7 +132,7 @@ fn find_smudge_reflections(grid: &Vec<Vec<char>>) -> Reflection {
             if diffs > 1 {
                 break;
             }
-            diffs += diff_strings(&get_row(grid, up as usize), &get_row(grid, down));
+            diffs += diff_bits(get_num_row(grid, up as usize), get_num_row(grid, down));
             up -= 1;
             down += 1;
         }
