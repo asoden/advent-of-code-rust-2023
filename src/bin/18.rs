@@ -64,21 +64,21 @@ pub fn part_one(input: &str) -> Option<i64> {
         })
         .collect();
 
-    let mut perimeter = trace_route(&instructions);
+    let mut route_coords = trace_route(&instructions);
 
-    let num_points = perimeter.len() as i64;
+    let perimeter: i64 = instructions.iter().map(|instruction| instruction.magnitude as i64).sum();
 
-    let front_copy = perimeter[0].clone();
+    let front_copy = route_coords[0].clone();
     //seal up perimeter of points
-    perimeter.push(front_copy);
+    route_coords.push(front_copy);
 
     let mut reg_poly_area = 0;
 
-    for (coord1, coord2) in perimeter.into_iter().tuple_windows() {
+    for (coord1, coord2) in route_coords.into_iter().tuple_windows() {
         reg_poly_area += (coord1.x - coord2.x) * (coord2.y + coord1.y);
     }
 
-    Some((reg_poly_area.abs() + num_points) / 2 + 1)
+    Some((reg_poly_area.abs() + perimeter) / 2 + 1)
 }
 
 pub fn part_two(input: &str) -> Option<i64> {
@@ -104,21 +104,21 @@ pub fn part_two(input: &str) -> Option<i64> {
         })
         .collect();
 
-    let mut perimeter = trace_route(&instructions);
+    let mut route_coords = trace_route(&instructions);
 
-    let num_points = perimeter.len() as i64;
+    let perimeter: i64 = instructions.iter().map(|instruction| instruction.magnitude as i64).sum();
 
-    let front_copy = perimeter[0].clone();
+    let front_copy = route_coords[0].clone();
     //seal up perimeter of points
-    perimeter.push(front_copy);
+    route_coords.push(front_copy);
 
     let mut reg_poly_area = 0;
 
-    for (coord1, coord2) in perimeter.into_iter().tuple_windows() {
+    for (coord1, coord2) in route_coords.into_iter().tuple_windows() {
         reg_poly_area += (coord1.x - coord2.x) * (coord2.y + coord1.y);
     }
 
-    Some((reg_poly_area.abs() + num_points) / 2 + 1)
+    Some((reg_poly_area.abs() + perimeter) / 2 + 1)
 }
 
 advent_of_code::main!(18);
