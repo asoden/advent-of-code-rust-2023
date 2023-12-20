@@ -66,7 +66,10 @@ pub fn part_one(input: &str) -> Option<i64> {
 
     let mut route_coords = trace_route(&instructions);
 
-    let perimeter: i64 = instructions.iter().map(|instruction| instruction.magnitude as i64).sum();
+    let perimeter: i64 = instructions
+        .iter()
+        .map(|instruction| instruction.magnitude as i64)
+        .sum();
 
     let front_copy = route_coords[0].clone();
     //seal up perimeter of points
@@ -106,7 +109,10 @@ pub fn part_two(input: &str) -> Option<i64> {
 
     let mut route_coords = trace_route(&instructions);
 
-    let perimeter: i64 = instructions.iter().map(|instruction| instruction.magnitude as i64).sum();
+    let perimeter: i64 = instructions
+        .iter()
+        .map(|instruction| instruction.magnitude as i64)
+        .sum();
 
     let front_copy = route_coords[0].clone();
     //seal up perimeter of points
