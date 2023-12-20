@@ -15,7 +15,7 @@ fn find_num(bad_calibration: &str) -> u32 {
     string_num.parse().unwrap()
 }
 
-fn find_crazy_person_numbers(line: &str, number_words_map: &HashMap<&str, u32>) -> u32 {
+fn _find_crazy_person_numbers(line: &str, number_words_map: &HashMap<&str, u32>) -> u32 {
     let regex = Regex::new(r"[0-9]|one|two|three|four|five|six|seven|eight|nine").unwrap();
     let xeger = Regex::new(r"[0-9]|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin").unwrap();
     let reversed: String = line.chars().rev().collect();
