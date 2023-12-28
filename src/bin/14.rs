@@ -183,8 +183,11 @@ pub fn part_two(input: &str) -> Option<u32> {
         platform.slide_south();
         platform.slide_east();
 
-        if seen_grid.contains_key(&*platform.grid.clone()){
-            break (seen_grid.get(&*platform.grid.clone()).unwrap(), seen_grid.len())
+        if seen_grid.contains_key(&*platform.grid.clone()) {
+            break (
+                seen_grid.get(&*platform.grid.clone()).unwrap(),
+                seen_grid.len(),
+            );
         }
         seen_grid.insert(platform.grid.clone(), seen_grid.len());
     };
@@ -194,12 +197,7 @@ pub fn part_two(input: &str) -> Option<u32> {
     let remainder = offset % cycle_length;
     let final_index = cycle_start + remainder;
 
-    let (grid, _) = seen_grid
-        .iter()
-        .find(|(_, &i)| {
-            i == final_index
-        })
-        .unwrap();
+    let (grid, _) = seen_grid.iter().find(|(_, &i)| i == final_index).unwrap();
 
     Some(load(grid))
 }
