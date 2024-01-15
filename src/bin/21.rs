@@ -55,7 +55,7 @@ fn walk_grid(grid: &Grid, steps: usize) -> usize {
 
     // remove possibility of dealing with negatives
     start.0 += (((steps + width - 1) / width) * width) as i32;
-    start.1 += (((steps + height - 1)/ height) * height) as i32;
+    start.1 += (((steps + height - 1) / height) * height) as i32;
 
     visited.insert(start);
 
