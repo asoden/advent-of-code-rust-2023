@@ -1,5 +1,9 @@
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::collections::VecDeque;
 use std::ops::Add;
+use rayon::prelude::*;
+
+use fxhash::FxHashMap as HashMap;
+use fxhash::FxHashSet as HashSet;
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash)]
 struct Point {
@@ -127,7 +131,7 @@ impl Map {
     fn longest_path(&self) -> Vec<u32> {
         // this will complete in a sane time as these directed slopes create a DAG for us!
         let mut ends = Vec::new();
-        let seen = HashSet::new();
+        let seen = HashSet::default();
         let mut queue = VecDeque::new();
         queue.push_back((self.start, seen.clone(), 0));
 
@@ -155,7 +159,7 @@ impl Map {
         // remap points from char to number of neighbors
         let map = self
             .map
-            .iter()
+            .par_iter()
             .filter(|(_, c)| **c != '#')
             .map(|(point, _)| {
                 let n = self.neighbors2(point).len();
@@ -166,13 +170,13 @@ impl Map {
         // make nodes from all points that do not have two neighbors
         // i.e. our start, end, and branching points
         let nodes = map
-            .iter()
+            .par_iter()
             .filter(|(_, n)| **n != 2)
             .map(|(point, _)| *point)
             .collect::<HashSet<_>>();
 
         // find the edges between our nodes with the length of walking to them as their weight
-        let mut edges: HashMap<Point, Vec<Edge>> = HashMap::new();
+        let mut edges: HashMap<Point, Vec<Edge>> = HashMap::default();
         for node in nodes.iter() {
             for mut current in self.neighbors2(node) {
                 let mut prev = *node;
@@ -209,7 +213,7 @@ impl Map {
     fn longest_path2(&self) -> Vec<u32> {
         let edges = self.find_contracted_edges();
         let mut ends = Vec::new();
-        let seen = HashSet::new();
+        let seen = HashSet::default();
         let mut queue = VecDeque::new();
         queue.push_back((self.start, seen.clone(), 0));
 
