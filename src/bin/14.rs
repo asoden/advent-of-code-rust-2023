@@ -37,7 +37,7 @@ impl Platform {
         }
     }
 
-    fn set_grid(&mut self, new_grid: &Vec<Vec<Space>>) {
+    fn _set_grid(&mut self, new_grid: &Vec<Vec<Space>>) {
         if new_grid.len() != self.height && new_grid[0].len() != self.width {
             return;
         }

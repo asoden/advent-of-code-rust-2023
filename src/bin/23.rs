@@ -127,7 +127,7 @@ impl Map {
     fn longest_path(&self) -> Vec<u32> {
         // this will complete in a sane time as these directed slopes create a DAG for us!
         let mut ends = Vec::new();
-        let mut seen = HashSet::new();
+        let seen = HashSet::new();
         let mut queue = VecDeque::new();
         queue.push_back((self.start, seen.clone(), 0));
 
@@ -209,7 +209,7 @@ impl Map {
     fn longest_path2(&self) -> Vec<u32> {
         let edges = self.find_contracted_edges();
         let mut ends = Vec::new();
-        let mut seen = HashSet::new();
+        let seen = HashSet::new();
         let mut queue = VecDeque::new();
         queue.push_back((self.start, seen.clone(), 0));
 

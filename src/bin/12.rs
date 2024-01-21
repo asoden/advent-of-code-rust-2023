@@ -71,7 +71,7 @@ impl Record {
         Self { springs, counts }
     }
 
-    fn is_valid(&self) -> bool {
+    fn _is_valid(&self) -> bool {
         self.springs
             .iter()
             .group_by(|&item| item)
