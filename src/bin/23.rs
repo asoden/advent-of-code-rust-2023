@@ -1,6 +1,6 @@
+use rayon::prelude::*;
 use std::collections::VecDeque;
 use std::ops::Add;
-use rayon::prelude::*;
 
 use fxhash::FxHashMap as HashMap;
 use fxhash::FxHashSet as HashSet;
