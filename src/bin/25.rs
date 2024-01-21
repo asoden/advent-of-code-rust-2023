@@ -1,5 +1,7 @@
+use fxhash::FxHashMap as HashMap;
+use fxhash::FxHashSet as HashSet;
 use itertools::Itertools;
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::collections::VecDeque;
 use std::hash::Hash;
 use std::rc::Rc;
 
@@ -20,13 +22,11 @@ impl Edge {
     }
 }
 fn construct_graph(input: &str) -> HashMap<Rc<str>, Vec<Edge>> {
-    let mut network: HashMap<Rc<str>, Vec<Edge>> = HashMap::new();
+    let mut network: HashMap<Rc<str>, Vec<Edge>> = HashMap::default();
 
     input.lines().for_each(|line| {
         let (key, values) = line.split_once(": ").expect("Colon seperated line");
-        let connections = values
-            .split_whitespace()
-            .collect_vec();
+        let connections = values.split_whitespace().collect_vec();
 
         // map edge connections of key to connections
         // connections are bidirectional and not duplicated in input
@@ -49,11 +49,12 @@ fn construct_graph(input: &str) -> HashMap<Rc<str>, Vec<Edge>> {
 }
 
 fn get_edge_to_remove(network: &HashMap<Rc<str>, Vec<Edge>>) -> Edge {
-    let mut betweeness: HashMap<Rc<str>, (usize, Edge)> = HashMap::new();
+    let mut betweeness: HashMap<Rc<str>, (usize, Edge)> = HashMap::default();
 
     for node in network.keys() {
-        let mut visited: HashSet<Rc<str>> = HashSet::new();
-        let mut queue: VecDeque<(Rc<str>, Vec<Rc<str>>)> = VecDeque::from(vec![(node.clone(), vec![])]);
+        let mut visited: HashSet<Rc<str>> = HashSet::default();
+        let mut queue: VecDeque<(Rc<str>, Vec<Rc<str>>)> =
+            VecDeque::from(vec![(node.clone(), vec![])]);
         while let Some((node, path)) = queue.pop_front() {
             visited.insert(node.clone());
             if let Some(edges) = network.get(&node) {
@@ -82,7 +83,7 @@ fn get_edge_to_remove(network: &HashMap<Rc<str>, Vec<Edge>>) -> Edge {
 
 fn count_subgraphs(network: &HashMap<Rc<str>, Vec<Edge>>) -> (usize, usize) {
     //bfs ftw
-    let mut visited = HashSet::new();
+    let mut visited = HashSet::default();
     // grab some node to start
     let start = network.keys().next().unwrap().clone();
     let mut queue = VecDeque::from([start]);
